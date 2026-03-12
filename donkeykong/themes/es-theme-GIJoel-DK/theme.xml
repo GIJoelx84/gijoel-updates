@@ -47,7 +47,7 @@ notes: Portrait patch for rotated 1280x1024 -> 1024x1280
       <image name="gijoel-logo" extra="true">
         <origin>0.5 0</origin>
         <path>./_inc/images/gijoel-logo.png</path>
-        <size>0.82 0.06</size>
+        <size>0.74 0.054</size>
         <pos>0.5 0.17</pos>
         <zIndex>700</zIndex>
       </image>
@@ -96,7 +96,7 @@ notes: Portrait patch for rotated 1280x1024 -> 1024x1280
     <image name="gijoel-logo" extra="true">
       <origin>0.5 0</origin>
       <path>./_inc/images/gijoel-logo.png</path>
-      <size>0.62 0.04</size>
+      <size>0.56 0.036</size>
       <pos>0.5 0.17</pos>
       <zIndex>700</zIndex>
     </image>
@@ -139,7 +139,7 @@ notes: Portrait patch for rotated 1280x1024 -> 1024x1280
     <image name="gijoel-logo" extra="true">
       <origin>0 0</origin>
       <pos>0.048828125 0.17</pos>
-      <size>0.62 0.04</size>
+      <size>0.56 0.036</size>
       <path>./_inc/images/gijoel-logo.png</path>
       <zIndex>700</zIndex>
     </image>
