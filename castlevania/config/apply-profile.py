@@ -73,6 +73,7 @@ for system, entries in games.items():
             game = ET.SubElement(root, 'game')
         child(game, 'path', './' + filename)
         child(game, 'name', title)
+        child(game, 'sortname', {'cstlevna.zip':'01', 'hcastle.zip':'02', 'castlevania2.nes':'03', 'castlevania3.nes':'04'}[filename])
         child(game, 'image', SHARED_IMAGE)
         child(game, 'favorite', 'true')
     write(path, '<?xml version="1.0" encoding="utf-8"?>\n' + ET.tostring(root, encoding='unicode') + '\n')
@@ -95,9 +96,6 @@ write('/opt/retropie/configs/nes/emulators.cfg', 'lr-fceumm = "/opt/retropie/emu
 
 for core, rom in [('MAME 2003-Plus','cstlevna'), ('MAME 2003-Plus','hcastle'), ('FCEUmm','castlevania2'), ('FCEUmm','castlevania3')]:
     override = 'aspect_ratio_index = "22"\nvideo_rotation = "0"\nvideo_scale_integer = "false"\n'
-    if rom == 'hcastle':
-        # DragonRise cabinet: physical B is button 5. Classic MAME button 2 is Jump.
-        override += 'input_player1_a_btn = "5"\ninput_player1_b_btn = "1"\n'
     write(HOME / '.config/retroarch/config' / core / (rom+'.cfg'), override)
 
 # Preserve GIJoel animation before the existing POST/COINCORE boot sequence.
