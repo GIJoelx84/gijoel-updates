@@ -1,5 +1,4 @@
-
 GIJoel Arcade Update System
-Version 0.1
+Version 0.2
 
-Initial Donkey Kong cabinet test setup.
+Published Popeye and Castlevania cabinet profiles.
