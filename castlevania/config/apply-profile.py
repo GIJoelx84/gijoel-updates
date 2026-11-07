@@ -101,4 +101,8 @@ for core, rom in [('MAME 2003-Plus','cstlevna'), ('MAME 2003-Plus','hcastle'), (
 # Preserve GIJoel animation before the existing POST/COINCORE boot sequence.
 for path in ('/etc/splashscreen.list','/etc/splashscreen.list.backup'):
     write(path,'/home/pi/RetroPie/splashscreens/gijoel-boot.mp4\n')
+controller_profile = Path(__file__).with_name('apply-two-player.py')
+if controller_profile.exists():
+    import runpy
+    runpy.run_path(str(controller_profile), run_name='__main__')
 print('Castlevania profile applied. Landscape and existing game library preserved.')
