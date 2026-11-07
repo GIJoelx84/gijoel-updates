@@ -104,4 +104,14 @@ for key,value in settings.items():
     else:
         text+='\n'+line+'\n'
 save(cfg,text)
+
+# Arcade Coin has a separate virtual button; preserve both blue Start/Select inputs.
+arcade = Path('/opt/retropie/configs/mame-libretro/retroarch.cfg')
+text = re.sub(r'^input_player1_y_btn\s*=.*\n?', '', arcade.read_text(), flags=re.M)
+text = re.sub(r'^input_player1_select_btn\s*=\s*"6"\s*\n?', '', text, flags=re.M)
+save(arcade, 'input_player1_y_btn = "6"\n'+text)
+game_profile = Path(__file__).with_name('apply-game-inputs.py')
+if game_profile.exists():
+    import runpy
+    runpy.run_path(str(game_profile), run_name='__main__')
 print('Twin encoder configured: P1 device 1; P2 device 0. Hotkey+Start exits; Hotkey+R/T opens menu.')

@@ -95,8 +95,12 @@ write(nescfg,'aspect_ratio_index = "22"\n'+text)
 write('/opt/retropie/configs/nes/emulators.cfg', 'lr-fceumm = "/opt/retropie/emulators/retroarch/bin/retroarch -L /opt/retropie/libretrocores/lr-fceumm/fceumm_libretro.so --config /opt/retropie/configs/nes/retroarch.cfg %ROM%"\ndefault = "lr-fceumm"\n')
 
 for core, rom in [('MAME 2003-Plus','cstlevna'), ('MAME 2003-Plus','hcastle'), ('FCEUmm','castlevania2'), ('FCEUmm','castlevania3')]:
-    override = 'aspect_ratio_index = "22"\nvideo_rotation = "0"\nvideo_scale_integer = "false"\n'
-    write(HOME / '.config/retroarch/config' / core / (rom+'.cfg'), override)
+    override_path = HOME / '.config/retroarch/config' / core / (rom+'.cfg')
+    override = override_path.read_text() if override_path.exists() else ''
+    for key, value in [('aspect_ratio_index','22'), ('video_rotation','0'), ('video_scale_integer','false')]:
+        override = re.sub(r'^'+key+r'\s*=.*\n?', '', override, flags=re.M)
+        override = key+' = "'+value+'"\n'+override
+    write(override_path, override)
 
 # Preserve GIJoel animation before the existing POST/COINCORE boot sequence.
 for path in ('/etc/splashscreen.list','/etc/splashscreen.list.backup'):
