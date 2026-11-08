@@ -62,12 +62,14 @@ def patch(data,name):
                 current,end=seq(data,offset+8)
                 target=None
                 if bank==1:
-                    if kind&0x700ff==0x10010:
+                    if name=='suprmrio.cfg' and kind&0x700ff in (0xf,0x10,0x1000f,0x10010):
+                        # VS SMB alone: swap A/B on both players; keep Coin separate.
+                        target=[{0xf:0x1000006d,0x10:0x1000006e,
+                                 0x1000f:0x1000007d,0x10010:0x1000007e}[kind&0x700ff]]
+                    elif kind&0x700ff==0x10010:
                         target=[P2_BUTTON2]
                     elif kind&0xff==0x2c and current!=[DEFAULT]:
                         target=[COIN]
-                    elif name=='suprmrio.cfg' and kind&0x700ff==0x10 and current in ([],[DEFAULT]):
-                        target=[B]
                 if target is not None and current!=target:
                     edits.append((offset+8,end,replacement(target),hex(kind)))
                 offset=end
