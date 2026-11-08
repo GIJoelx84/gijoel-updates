@@ -64,7 +64,16 @@ system_cfg = Path('/opt/retropie/configs/mame-libretro/retroarch.cfg')
 text = re.sub(r'^aspect_ratio_index\s*=.*$', 'aspect_ratio_index = "22"', system_cfg.read_text(), flags=re.M)
 write_if_changed(system_cfg, text)
 override = '/opt/retropie/configs/all/retroarch/config/MAME 2003-Plus/popeye.cfg'
-write_if_changed(override, 'aspect_ratio_index = "22"\nvideo_rotation = "0"\nvideo_scale_integer = "false"\n')
+override_path = Path(override)
+text = override_path.read_text() if override_path.exists() else ''
+for key, value in [('aspect_ratio_index','22'), ('video_rotation','0'), ('video_scale_integer','false')]:
+    pattern = r'^'+key+r'\s*=.*$'
+    line = key+' = "'+value+'"'
+    if re.search(pattern, text, re.M):
+        text = re.sub(pattern, lambda m: line, text, flags=re.M)
+    else:
+        text += ('\n' if text and not text.endswith('\n') else '') + line + '\n'
+write_if_changed(override, text)
 
 # Restore the original GIJoel opening animation.
 splash = '/home/pi/RetroPie/splashscreens/gijoel-boot.mp4\n'
