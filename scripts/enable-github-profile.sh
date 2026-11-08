@@ -4,7 +4,7 @@ set -euo pipefail
 BASE=/home/pi/gijoel
 REPO="$BASE/gijoel-updates"
 source "$BASE/config/cabinet.conf"
-case "$CABINET" in popeye|castlevania) ;; *) echo 'Use only on Popeye or Castlevania cabinets.'; exit 1;; esac
+case "$CABINET" in donkeykong|popeye|castlevania) ;; *) echo 'No supported cabinet profile selected.'; exit 1;; esac
 git -C "$REPO" fetch origin main
 git -C "$REPO" cat-file -e "origin/main:$CABINET/config/apply-profile.py"
 BACKUP="$BASE/backups/enable-github-$(date +%Y%m%d-%H%M%S)"

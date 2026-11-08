@@ -23,6 +23,12 @@ fi
 
 source "$CONFIG"
 
+exec 9>"$BASE/update.lock"
+if ! flock -n 9; then
+  echo "Another cabinet update is already running."
+  exit 0
+fi
+
 if [ -z "$CABINET" ]; then
   echo "CABINET is empty in $CONFIG"
   exit 1
@@ -107,7 +113,7 @@ rsync -av --delete --exclude='.keep' "$CURRENT_LINK/themes/" "$THEMEDEST/" 2>/de
 echo "Installing splash files into RetroPie splashscreens folder..."
 rsync -av --exclude='.keep' "$CURRENT_LINK/splash/" "$SPLASHDEST/" 2>/dev/null || true
 
-if { [ "$CABINET" = "popeye" ] || [ "$CABINET" = "castlevania" ]; } && [ -f "$CURRENT_LINK/config/apply-profile.py" ]; then
+if { [ "$CABINET" = "donkeykong" ] || [ "$CABINET" = "popeye" ] || [ "$CABINET" = "castlevania" ]; } && [ -f "$CURRENT_LINK/config/apply-profile.py" ]; then
   echo "Applying $CABINET cabinet configuration..."
   sudo python3 "$CURRENT_LINK/config/apply-profile.py"
 fi
@@ -123,10 +129,21 @@ echo "Cleaning old releases (keeping newest 5)..."
 ls -1dt "$RELEASES"/* 2>/dev/null | tail -n +6 | xargs -r rm -rf
 
 echo "Done."
+
+# Once bootstrapped, future updater changes arrive through the same channel.
+if [ -f "$REPO/scripts/update.sh" ] && ! cmp -s "$REPO/scripts/update.sh" "$BASE/update.sh"; then
+  bash -n "$REPO/scripts/update.sh"
+  mkdir -p "$BASE/backups/updater"
+  cp -p "$BASE/update.sh" "$BASE/backups/updater/update-before-$SHORTSHA.sh"
+  cp "$REPO/scripts/update.sh" "$BASE/update.sh.next"
+  chmod +x "$BASE/update.sh.next"
+  mv "$BASE/update.sh.next" "$BASE/update.sh"
+  echo "Updated cabinet updater for the next run."
+fi
 echo "Current release points to:"
 readlink -f "$CURRENT_LINK"
 
-if [ "$UPDATE_HAPPENED" -eq 1 ]; then
+if [ "$UPDATE_HAPPENED" -eq 1 ] && [ "${GIJOEL_NO_REBOOT:-0}" != "1" ]; then
   echo "Update installed. Rebooting system in 5 seconds..."
   sleep 5
   sudo reboot

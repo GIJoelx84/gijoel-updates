@@ -1,0 +1,26 @@
+{
+  "global": {
+    "aspect_ratio_index": "11",
+    "custom_viewport_height": "480",
+    "custom_viewport_width": "640",
+    "custom_viewport_x": "0",
+    "custom_viewport_y": "0",
+    "video_rotation": "0",
+    "video_scale_integer": "false",
+    "video_scale_integer_overscale": "false",
+    "video_shader": "/opt/retropie/emulators/retroarch/shader/crt-pi-curvature-vertical.glslp",
+    "video_shader_delay": "0",
+    "video_shader_dir": "~/.config/retroarch/shaders",
+    "video_shader_enable": "true",
+    "video_shader_preset_save_reference_enable": "true",
+    "video_shader_remember_last_dir": "false",
+    "video_shader_watch_files": "false"
+  },
+  "gameOverrides": {
+    "/opt/retropie/configs/all/retroarch/config/MAME 2003-Plus/dkong.cfg": "aspect_ratio_index = \"24\"\n",
+    "/opt/retropie/configs/all/retroarch/config/MAME 2003-Plus/dkong3.cfg": "aspect_ratio_index = \"8\"\ncustom_viewport_height = \"950\"\ncustom_viewport_width = \"765\"\ncustom_viewport_y = \"32\"\n",
+    "/opt/retropie/configs/all/retroarch/config/MAME 2003-Plus/dkongjr.cfg": "aspect_ratio_index = \"8\"\n"
+  },
+  "theme": "es-theme-GIJoel-DK",
+  "display_hdmi_rotate": "3"
+}
