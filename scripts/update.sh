@@ -94,6 +94,17 @@ if [ -d "$LOCAL_PROFILE" ]; then
   rsync -av --exclude='.keep' "$LOCAL_PROFILE/" "$NEWREL/"
 fi
 
+ROM_MANIFEST="$NEWREL/config/roms.json"
+if [ -f "$ROM_MANIFEST" ]; then
+  echo "Installing verified ROMs for $CABINET..."
+  python3 "$REPO/scripts/install-roms.py" "$ROM_MANIFEST" /home/pi/RetroPie/roms
+  # A failed download may have advanced Git HEAD without activating the release.
+  if [ "$(cat "$BUILD_FILE" 2>/dev/null || true)" != "$SHORTSHA" ]; then
+    UPDATE_HAPPENED=1
+    UPDATE_STATUS="UPDATED"
+  fi
+fi
+
 echo "Updating current symlink..."
 if [ -d "$CURRENT_LINK" ] && [ ! -L "$CURRENT_LINK" ]; then
   rm -rf "$CURRENT_LINK"
@@ -148,3 +159,4 @@ if [ "$UPDATE_HAPPENED" -eq 1 ] && [ "${GIJOEL_NO_REBOOT:-0}" != "1" ]; then
   sleep 5
   sudo reboot
 fi
+
