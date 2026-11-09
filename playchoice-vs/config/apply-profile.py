@@ -45,8 +45,10 @@ if arcade.findtext("fullname") != "PlayChoice VS":
 write(settings, settings_text)
 write("/opt/gijoel/config/cabinet-id.txt", "playchoice-vs\n")
 intro = Path("/opt/gijoel/scripts/show-boot-intro.sh")
-intro_text = re.sub(r"(?:CASTLEVANIA|POPEYE|DONKEY KONG) CABINET",
-                    "PLAYCHOICE VS CABINET", intro.read_text())
-write(intro, intro_text)
+intro_data = intro.read_bytes()
+updated_intro = re.sub(rb"(?:CASTLEVANIA|POPEYE|DONKEY KONG) CABINET",
+                       b"PLAYCHOICE VS CABINET", intro_data)
+if updated_intro != intro_data:
+    intro.write_bytes(updated_intro)
 runpy.run_path(str(Path(__file__).with_name("apply-two-player.py")), run_name="__main__")
 print("PlayChoice VS profile applied.")
