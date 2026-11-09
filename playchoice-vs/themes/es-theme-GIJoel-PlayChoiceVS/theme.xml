@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<theme>
+  <formatVersion>4</formatVersion>
+  <view name="system,basic,detailed,video">
+    <image name="background" extra="true">
+      <path>./_inc/background.svg</path><pos>0 0</pos><size>1 1</size><zIndex>0</zIndex>
+    </image>
+    <image name="gijoel-logo" extra="true">
+      <path>./_inc/images/gijoel-logo.png</path><pos>0.055 0.17</pos><maxSize>0.42 0.04875</maxSize><zIndex>10</zIndex>
+    </image>
+    <image name="gijoel-character" extra="true"><path>./_inc/images/background.png</path><origin>0 1</origin><pos>0 1</pos><maxSize>0.56 1</maxSize><zIndex>1</zIndex></image>
+    <image name="overlay-custom" extra="true"><path>./_inc/images/overlay.png</path><origin>0 0</origin><pos>0 0</pos><size>1 1</size><tile>false</tile><zIndex>999</zIndex></image>
+    <helpsystem name="help"><pos>1 1</pos></helpsystem>
+  </view>
+  <view name="system">
+    <carousel name="systemcarousel">
+      <type>horizontal</type><pos>0.05 0.27</pos><size>0.90 0.42</size><origin>0 0</origin>
+      <color>00000000</color><logoScale>1</logoScale><logoSize>0.50 0.23</logoSize><maxLogoCount>1</maxLogoCount>
+    </carousel>
+    <image name="logo"><path>./_inc/logos/${system.theme}.svg</path></image>
+    <text name="systemInfo"><pos>0.10 0.73</pos><size>0.80 0.06</size><alignment>center</alignment>
+      <fontPath>./_inc/fonts/WorkSans-Bold.ttf</fontPath><fontSize>0.035</fontSize><color>FFFFFF</color></text>
+  </view>
+  <view name="basic,detailed,video">
+    <text name="logoText"><pos>0.055 0.055</pos><size>0.5 0.08</size><alignment>left</alignment><fontPath>./_inc/fonts/WorkSans-Bold.ttf</fontPath><fontSize>0.045</fontSize><color>FFFFFF</color></text>
+    <image name="logo"><path>./_inc/logos/${system.theme}.svg</path><origin>0 0</origin><pos>0.055 0.055</pos><maxSize>0.25 0.08</maxSize></image>
+    <textlist name="gamelist">
+      <pos>0.27 0.30</pos><size>0.38 0.64</size><alignment>left</alignment>
+      <fontPath>./_inc/fonts/WorkSans-Bold.ttf</fontPath><fontSize>0.038</fontSize><lineSpacing>1.5</lineSpacing>
+      <primaryColor>FFFFFF</primaryColor><secondaryColor>FFFFFF</secondaryColor><selectedColor>F2C10A</selectedColor>
+      <selectorColor>00000000</selectorColor><forceUppercase>1</forceUppercase><zIndex>20</zIndex>
+    </textlist>
+  </view>
+  <view name="detailed,video">
+    <image name="md_image"><origin>0.75 1</origin><pos>1 1.06</pos><maxSize>0.42 0.76</maxSize><zIndex>20</zIndex></image>
+    <text name="md_lbl_rating,md_lbl_developer,md_developer,md_lbl_publisher,md_publisher,md_lbl_playcount,md_playcount,md_lbl_lastplayed,md_lbl_players,md_players,md_lbl_releasedate,md_lbl_genre,md_genre,md_description"><pos>1 1</pos></text>
+    <datetime name="md_lastplayed,md_releasedate"><pos>1 1</pos></datetime>
+    <rating name="md_rating"><pos>1 1</pos></rating>
+  </view>
+  <view name="video"><video name="md_video"><pos>1 1</pos></video><image name="md_marquee"><pos>1 1</pos></image></view>
+</theme>

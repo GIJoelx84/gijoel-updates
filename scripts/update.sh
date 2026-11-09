@@ -75,7 +75,7 @@ NEWREL="$RELEASES/${STAMP}_${SHORTSHA}"
 echo "Creating new release folder:"
 echo "$NEWREL"
 
-mkdir -p "$NEWREL"
+mkdir "$NEWREL"
 
 echo "Applying shared files first..."
 rsync -av --exclude='.keep' "$REPO/shared/" "$NEWREL/"
@@ -97,7 +97,10 @@ fi
 ROM_MANIFEST="$NEWREL/config/roms.json"
 if [ -f "$ROM_MANIFEST" ]; then
   echo "Installing verified ROMs for $CABINET..."
-  python3 "$REPO/scripts/install-roms.py" "$ROM_MANIFEST" /home/pi/RetroPie/roms
+  if ! python3 "$REPO/scripts/install-roms.py" "$ROM_MANIFEST" /home/pi/RetroPie/roms; then
+    rm -rf -- "$NEWREL"
+    exit 1
+  fi
   # A failed download may have advanced Git HEAD without activating the release.
   if [ "$(cat "$BUILD_FILE" 2>/dev/null || true)" != "$SHORTSHA" ]; then
     UPDATE_HAPPENED=1
@@ -124,10 +127,14 @@ rsync -av --delete --exclude='.keep' "$CURRENT_LINK/themes/" "$THEMEDEST/" 2>/de
 echo "Installing splash files into RetroPie splashscreens folder..."
 rsync -av --exclude='.keep' "$CURRENT_LINK/splash/" "$SPLASHDEST/" 2>/dev/null || true
 
-if { [ "$CABINET" = "donkeykong" ] || [ "$CABINET" = "popeye" ] || [ "$CABINET" = "castlevania" ]; } && [ -f "$CURRENT_LINK/config/apply-profile.py" ]; then
-  echo "Applying $CABINET cabinet configuration..."
-  sudo python3 "$CURRENT_LINK/config/apply-profile.py"
-fi
+case "$CABINET" in
+donkeykong|popeye|castlevania|playchoice-vs)
+  if [ -f "$CURRENT_LINK/config/apply-profile.py" ]; then
+    echo "Applying $CABINET cabinet configuration..."
+    sudo python3 "$CURRENT_LINK/config/apply-profile.py"
+  fi
+  ;;
+esac
 
 if [ -f "$VERSIONFILE" ]; then
   cp "$VERSIONFILE" "$BASE/installed-version.txt"
@@ -159,4 +166,3 @@ if [ "$UPDATE_HAPPENED" -eq 1 ] && [ "${GIJOEL_NO_REBOOT:-0}" != "1" ]; then
   sleep 5
   sudo reboot
 fi
-
