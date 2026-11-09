@@ -25,6 +25,7 @@ for key, value in {
     "ThemeSet": "es-theme-GIJoel-PlayChoiceVS",
     "StartupSystem": "mame-libretro",
     "GamelistViewStyle": "detailed",
+    "CollectionSystemsAuto": "",
 }.items():
     pattern = r'(<string name="' + key + r'" value=")[^"]*("\s*/>)'
     settings_text, count = re.subn(pattern, lambda match: match[1] + value + match[2], settings_text)
